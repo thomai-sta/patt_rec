@@ -10,5 +10,7 @@ plot(xx, s(1,:));
 subplot(212);
 plot(xx, s(2,:));
 
+DisplayCharacter(s);
+
 end
 
