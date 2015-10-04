@@ -9,7 +9,7 @@ ret_s = zeros(size(s));
 for i = 1:length(s)
     ret_s(1,i) = s(1,i) - min_x;
     ret_s(2,i) = s(2,i) - min_y;
-    ret_s(3,i) = s(3,i);
+%     ret_s(3,i) = s(3,i);
 end
 
 end
