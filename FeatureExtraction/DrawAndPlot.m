@@ -1,0 +1,2 @@
+s = DrawCharacter;
+PlotXY(s);
