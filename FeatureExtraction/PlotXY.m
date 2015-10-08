@@ -1,17 +1,20 @@
 function PlotXY(raw_s)
 
-[~, a, d] = FeatureExtract(raw_s);
-
-xx = 1:length(a);
+[~, a, d, f] = FeatureExtract(raw_s);
 
 figure;
-subplot(211);
-plot(xx, a);
+
+subplot(311);
+plot(1:length(a), a);
 title('Angle');
-subplot(212);
-plot(xx, d);
+
+subplot(312);
+plot(1:length(d), d);
 title('Distance');
 
+subplot(313);
+plot(1:length(f), f);
+title('Feature');
 
 end
 
