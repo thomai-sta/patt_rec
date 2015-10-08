@@ -35,7 +35,7 @@ d = sqrt(dx .* dx + dy .* dy);
 a_n = 8;
 d_n = 6;
 a = quantiz(a, linspace(-pi, pi, a_n));
-d = quantiz(d, linspace(0, 1.5, d_n));
+d = quantiz(d, linspace(0, 1.5, d_n));      %LOLANOTHERHACK
 
 % creating levels for each jump
 f = zeros(1, length(d));
