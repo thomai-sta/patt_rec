@@ -1,62 +1,67 @@
-function [s, a, d, f] = FeatureExtract(s)
+function [sequence, angles, distances, feature] = FeatureExtract(init_sequence, angles_n, distances_n)
 
-% pen up (removing zeros)
-%idx = s(3,:) == 1;
-%s = s(:,idx);
-idx = find(s(3,:));
-s = s(:,idx(1):idx(end));
-s = RemovePenUp(s);
+% Remove all zeros, for when the pen is up
+pen_position = init_sequence(3, :);
+dif = [diff(pen_position) 0];
+pen_position(dif < 0) = 2;
+pen_position = pen_position(pen_position ~= 0);
+stroke = 1;
+for i = 1:length(pen_position)
+  if (pen_position(i) == 2)
+    pen_position(i) = stroke;
+    stroke = stroke + 1;
+  else
+    pen_position(i) = stroke;
+  end
+end
 
-% removing duplicate adjacent
-diffs = [diff(s(1,:)); diff(s(2,:))];
-idx = ~(diffs(1,:) == 0 & diffs(2,:) == 0 & s(3,1:end-1) == 1); %LOLHACK
-s = s(:,idx);
+sequence = init_sequence(1:2, init_sequence(3, :) == 1);
 
-% scaling character
-min_y = min(s(2,:));
-max_y = max(s(2,:));
+% Removing duplicate adjacent values
+diffs = [diff(sequence(1,:)); diff(sequence(2,:))];
+idx = ~(diffs(1, :) == 0 & diffs(2, :) == 0);
+sequence = sequence(:, idx);
+pen_position = pen_position(idx);
+
+% Scale character
+min_y = min(sequence(2, :));
+max_y = max(sequence(2, :));
 height = max_y - min_y;
-s(1,:) = s(1,:) / height;
-s(2,:) = s(2,:) / height;
+sequence(1, :) = sequence(1, :) / height;
+sequence(2, :) = sequence(2, :) / height;
 
-% moving character
-min_x = min(s(1,:));
-min_y = min(s(2,:));
-s(1,:) = s(1,:) - min_x;
-s(2,:) = s(2,:) - min_y;
+% Translate character
+min_x = min(sequence(1, :));
+min_y = min(sequence(2, :));
+sequence(1, :) = sequence(1, :) - min_x;
+sequence(2, :) = sequence(2, :) - min_y;
 
-% feature itself
-dx = diff(s(1,:));
-dy = diff(s(2,:));
-a = atan2(dy, dx);
-d = sqrt(dx .* dx + dy .* dy);
+% Get angles and distances
+dx = diff(sequence(1,:));
+dy = diff(sequence(2,:));
+angles = atan2(dy, dx);
+distances = sqrt(dx .* dx + dy .* dy);
 
-% quantization
-a_n = 8;
-d_n = 6;
-a = quantiz(a, linspace(-pi, pi, a_n));
-d = quantiz(d, linspace(0, 1.5, d_n));      %LOLANOTHERHACK
+% Quantization
+angles = quantiz(angles, linspace(-pi, pi, angles_n));
+distances = quantiz(distances, linspace(0, 1.5, distances_n));
 
-% creating levels for each jump
-f = zeros(1, length(d));
-idx = find(s(3,:) == 0);
-for i=1:2:length(idx)
-    i1 = idx(i);
-    f(i1) = d(i1);
+% Creating levels for each jump
+pen_position = [pen_position(2: end) pen_position(end)];
+stroke = pen_position(1);
+curr = distances(1);
+for i = 2:length(distances)
+  if (pen_position(i) == stroke)
+    distances(i) = curr;
+  else
+    curr = distances(i);
+    stroke = pen_position(i);
+  end
 end
 
-curr = 1;
-for i=1:length(f)
-    if f(i) ~= curr && f(i) ~= 0
-        curr = f(i);
-    else
-        f(i) = curr;
-    end
-end
-d = f;
 
-% creating 1d discrete feature
-f = (d-1) * a_n + a;
+% Map everything to a 1D feature
+feature = (distances-1) * angles_n + angles;
 
 end
 
