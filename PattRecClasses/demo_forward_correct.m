@@ -21,3 +21,5 @@ pX = hmm.OutputDistr.prob(x);
 
 mc = MarkovChain(q, A(:,1:end-1));
 [alphaHat, c] = forward(mc, pX)
+
+hmm.logprob(x)

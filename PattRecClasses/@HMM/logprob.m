@@ -36,5 +36,7 @@ for i=1:numel(hmm)%for all HMM objects
     %
     %logP(i)= result for hmm(i)
     %continue coding from here, and delete the error message.
-    error('Not yet implemented');
+    [p, logS] = hmm.OutputDistr.prob(x);
+    [~, c] = hmm.StateGen.forward(p.*repmat(exp(logS), size(p, 1), 1));
+    logP(i) = sum(log(c));
 end;
