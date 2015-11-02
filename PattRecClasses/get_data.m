@@ -11,11 +11,11 @@
 % =) 10
 
 clear all
-clc
+% clc
 
 angles_n = 8;
-distances_n = 6;
-K = 5;
+distances_n = 12;
+K = 3;
 
 classes = {};
 classes{1} = 'A';
@@ -90,7 +90,9 @@ for i = 1:size(data.a, 1)
   labels(count) = 9;
   [~, ~, ~, features{count}] = FeatureExtract(raw_data{count}, angles_n, distances_n);
   count = count + 1;
-  
+  if (features{count - 1}(1) == -8)
+    DisplayCharacter(raw_data{count - 1});
+  end
   % =)
   raw_data{count} = data.smiley{i};
   labels(count) = 10;
@@ -100,7 +102,7 @@ end
 
 
 Indices = crossvalind('Kfold', labels, K);
-trainData = features(Indices ~= 5);
+trainData = features(Indices ~= K);
 train_sizes = cellfun(@(x) size(x, 2), trainData, 'UniformOutput', false);
 train_sizes = cell2mat(train_sizes);
 train_sizes = train_sizes';
@@ -111,7 +113,7 @@ for j = 1:size(trainData, 2)
   end
 end
 
-testData = features(Indices == 5);
+testData = features(Indices == K);
 test_sizes = cellfun(@(x) size(x, 2), testData, 'UniformOutput', false);
 test_sizes = cell2mat(test_sizes);
 test_sizes = test_sizes';
@@ -121,7 +123,8 @@ for j = 1:size(testData, 2)
     test_data(i, j) = testData{j}(i);
   end
 end
-train_labels = labels(Indices ~= 5);
-test_labels = labels(Indices == 5);
+train_labels = labels(Indices ~= K);
+test_labels = labels(Indices == K);
 
-save('hmm_data', 'train_data', 'train_labels', 'train_sizes', 'test_data', 'test_labels', 'test_sizes', 'classes');
+save('hmm_data', 'train_data', 'train_labels', 'train_sizes', 'test_data',...
+  'test_labels', 'test_sizes', 'classes', 'angles_n', 'distances_n');

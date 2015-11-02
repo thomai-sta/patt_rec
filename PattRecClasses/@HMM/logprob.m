@@ -36,7 +36,12 @@ for i=1:numel(hmm)%for all HMM objects
     %
     %logP(i)= result for hmm(i)
     %continue coding from here, and delete the error message.
-    [p, logS] = hmm.OutputDistr.prob(x);
-    [~, c] = hmm.StateGen.forward(p.*repmat(exp(logS), size(p, 1), 1));
+    [pX, logpX] = hmm(i).OutputDistr.prob(x);
+    q = hmm(i).StateGen.InitialProb;
+    A = hmm(i).StateGen.TransitionProb;
+    mc = MarkovChain(q,A);
+    
+    [~, c] = forward( mc, pX.*repmat(exp(logpX),size(pX,1),size(pX,2)) );
+    
     logP(i) = sum(log(c));
 end;

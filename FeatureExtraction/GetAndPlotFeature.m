@@ -1,7 +1,7 @@
 function GetAndPlotFeature(raw_sequence)
 
 angles_n = 8;
-distances_n = 6;
+distances_n = 12;
 
 [clean_sequence, angle, distance, feature] = FeatureExtract(raw_sequence, angles_n, distances_n);
 
@@ -16,7 +16,7 @@ axis([0 1 0 1])
 figure;
 scatter(clean_sequence(1, :), clean_sequence(2, :))
 title('Translated and Scaled Character')
-axis([0 1 0 1])
+% axis([0 1 0 1])
 
 
 % Plot features
