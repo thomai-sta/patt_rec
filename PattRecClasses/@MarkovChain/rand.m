@@ -20,20 +20,41 @@ function S = rand(mc, T)
 %---------------------------------------------
 %Code Authors:
 %---------------------------------------------
-S=zeros(1,T);%space for resulting row vector
-nS=mc.nStates;
-q = DiscreteD(mc.InitialProb);
-%sample initial state
-p = q.rand(1);
+[nStates1, nStates2] = size(mc.TransitionProb);
 
-a = DiscreteD(); %just a temp object creation
-for i=1:T
-    %get transition probabilities for this state
-    v = mc.TransitionProb(p,:).*mc.InitialProb(p);
-    %make distribution from the new probabilities
-    a.ProbMass = v;
-    %sample from new distribution to get state
-    S(i) = a.rand(1);
-    %assign new state to p
-    p = S(i);
+sum_transition_prob = cumsum(mc.TransitionProb, 2);
+sum_initial_prob = cumsum(mc.InitialProb);
+
+% Generate first state
+temp = rand;
+found = 0;
+j = 1;
+S = [];
+while (j <= nStates1 && ~found)
+  if (temp <= sum_initial_prob(j))
+    S = [S j];
+    found = 1;
+  end
+  j = j + 1;
+end
+
+% Generate rest of states
+End = 0;
+i = 2;
+while (i <= T && ~End)
+  temp = rand;
+  found = 0;
+  j = 1;
+  while (j <= nStates2 && ~found)
+    if (temp <= sum_transition_prob(S(end), j))
+      if (j == nStates2 && nStates2 > nStates1)
+        End = 1;
+      else
+        S = [S j];
+      end
+      found = 1;
+    end
+    j = j + 1;
+  end
+  i = i + 1;
 end
