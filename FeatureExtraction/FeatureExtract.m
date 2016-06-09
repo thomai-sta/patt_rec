@@ -24,11 +24,16 @@ sequence = sequence(:, idx);
 pen_position = pen_position(idx);
 
 % Scale character
-min_y = min(sequence(2, :));
-max_y = max(sequence(2, :));
-height = max_y - min_y;
-sequence(1, :) = sequence(1, :) / height;
-sequence(2, :) = sequence(2, :) / height;
+% min_y = min(sequence(2, :));
+% max_y = max(sequence(2, :));
+
+min_x = min(sequence(1, :));
+max_x = max(sequence(1, :));
+
+% height = (max_y - min_y);
+width = (max_x - min_x);
+sequence(1, :) = sequence(1, :) / width;
+sequence(2, :) = sequence(2, :) / width;
 
 % Translate character
 min_x = min(sequence(1, :));
@@ -43,8 +48,8 @@ angles = atan2(dy, dx);
 distances = sqrt(dx .* dx + dy .* dy);
 
 % Quantization
-angles = quantiz(angles, linspace(-pi, pi, angles_n));
-distances = quantiz(distances, linspace(0, 1.5, distances_n));
+angles = quantiz(angles, linspace(-pi, pi, angles_n + 1));
+distances = quantiz(distances, linspace(0, 3, distances_n));
 
 % Creating levels for each jump
 pen_position = [pen_position(2: end) pen_position(end)];
