@@ -19,10 +19,10 @@ seq = rand(hmm, 500);
 figure
 plot([1:500], seq);
 hold on
-b = 1.7 * ones(1, 500);
+b = 2.2 * ones(1, 500);
 plot([1:500], b)
 plot([1:500], -b)
 grid
-title('Output sequence')
-xlabel('timesteps (t)')
-ylabel('Xt')
+title('Output sequence', 'FontSize', 20)
+xlabel('timesteps (t)', 'FontSize', 20)
+ylabel('Xt', 'FontSize', 20)

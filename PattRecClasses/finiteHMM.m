@@ -14,7 +14,7 @@ B = [b1; b2]
 %% Markov Chain
 mc = MarkovChain(q, A);
 for i = 1:1000
-  seq = rand(mc, 100);
+  seq = rand(mc, 100)
   len(i) = length(seq);
 end
 

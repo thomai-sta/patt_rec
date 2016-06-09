@@ -23,9 +23,9 @@ plot([1:500], seq(1, :))
 hold on
 plot([1:500], seq(2, :))
 grid
-xlabel('timesteps (t)')
-ylabel('Output Xt1 and Xt2')
-title('Output sequence of 500 states')
+xlabel('timesteps (t)', 'FontSize', 20)
+ylabel('Output Xt1 and Xt2', 'FontSize', 20)
+title('Output sequence of 500 states', 'FontSize', 20)
 % X_mean = mean(seq);
 % X_var = var(seq);
 % S1_freq = sum(seq == 1) / length(seq);

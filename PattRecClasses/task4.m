@@ -18,6 +18,6 @@ seq = rand(hmm, 500);
 figure
 plot([1:500], seq);
 grid
-title('Output sequence')
-xlabel('timesteps (t)')
-ylabel('Xt')
+title('Output sequence', 'FontSize', 20)
+xlabel('timesteps (t)', 'FontSize', 20)
+ylabel('Xt', 'FontSize', 20)
