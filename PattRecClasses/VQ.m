@@ -1,18 +1,18 @@
 classdef VQ
-%VQ - class representing a Vector Quantizer.
-%Continuous-valued vectors to be quantized are given columnwise, in a matrix.
+% VQ - class representing a Vector Quantizer.
+% Continuous-valued vectors to be quantized are given columnwise, in a matrix.
 %
-%Usage Examples:
-%vq=VQ(codebook);%construct a VQ object from a given CodeBook
-%vq=create(VQ,x,10);%initialize and train a VQ object to given data
-%vq=init(VQ,x,Ncodes);%initialize a VQ object for training vectors x.
-%vq=trainLloyd(vq,x);%train a given vq object by generalized Lloyd algorithm
-%iy=encode(vq,y);%encode each column vector of a given matrix y to row vector of integer code-index 
-%z=decode(vq,iy);%reconstruct vectors encoded as index vector iy
+% Usage Examples:
+% vq=VQ(codebook);%construct a VQ object from a given CodeBook
+% vq=create(VQ,x,10);%initialize and train a VQ object to given data
+% vq=init(VQ,x,Ncodes);%initialize a VQ object for training vectors x.
+% vq=trainLloyd(vq,x);%train a given vq object by generalized Lloyd algorithm
+% iy=encode(vq,y);%encode each column vector of a given matrix y to row vector of integer code-index 
+% z=decode(vq,iy);%reconstruct vectors encoded as index vector iy
 %
-%Arne Leijon 2009-07-19
-%            2010-11-21 (?) single-file class definition
-%Gustav Eje Henter 2011-12-06 switched to k-means++ init
+% Arne Leijon 2009-07-19
+%             2010-11-21 (?) single-file class definition
+% Gustav Eje Henter 2011-12-06 switched to k-means++ init
 
     properties(Access=public)
         CodeBook=[];%   set of vector centroids used for quantization

@@ -41,7 +41,7 @@ for i=1:numel(hmm)%for all HMM objects
     A = hmm(i).StateGen.TransitionProb;
     mc = MarkovChain(q,A);
     
-    [~, c] = forward( mc, pX.*repmat(exp(logpX),size(pX,1),size(pX,2)) );
+    [~, c] = forward(mc, pX .* repmat(exp(logpX), size(pX, 1), size(pX, 2)));
     
     logP(i) = sum(log(c));
 end;

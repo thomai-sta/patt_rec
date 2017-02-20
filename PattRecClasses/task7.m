@@ -1,6 +1,5 @@
-clear all
+clear
 clc
-
 
 q = [0.75; 0.25]
 

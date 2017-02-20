@@ -1,11 +1,13 @@
-q = [0.75; 0.25]
+q = [0.75;
+     0.25]
 
-A = [0.99 0.01; 0.03 0.97]
+A = [0.99 0.01;
+     0.03 0.97]
 
-b1 = GaussD('Mean', 0, 'StDev', 1)
+b1 = GaussD('Mean', 0, 'StDev', 1);
 b2 = GaussD('Mean', 3, 'StDev', 2);
 
-B = [b1; b2]
+B = [b1; b2];
 
 %% Markov Chain
 mc = MarkovChain(q, A);
